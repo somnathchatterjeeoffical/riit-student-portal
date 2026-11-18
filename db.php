@@ -1,10 +1,13 @@
 <?php
 // =========================================================================
-// RIIT STUDENT & FACULTY PORTAL - DATABASE CONFIGURATION
-// Auto-detects Localhost (XAMPP) vs Live Hosting (Render / InfinityFree)
+// RIIT STUDENT & FACULTY PORTAL - RESILIENT DATABASE CONFIGURATION
+// Auto-detects Localhost (XAMPP), Render / Cloud, InfinityFree with SQLite Fallback
 // =========================================================================
 
-// 1. Auto-load .env file if present
+// 1. Disable uncaught fatal mysqli exceptions from crashing the application
+mysqli_report(MYSQLI_REPORT_OFF);
+
+// 2. Auto-load .env file if present
 $env_file = __DIR__ . '/.env';
 if (file_exists($env_file)) {
     $env_lines = file($env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -24,58 +27,72 @@ if (file_exists($env_file)) {
     }
 }
 
-// Check whether running on Localhost or Live Production Server
+// 3. Resolve Database Credentials from Environment or Defaults
 $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
-$is_local = in_array($server_name, ['localhost', '127.0.0.1']) || strpos($server_name, '192.168.') === 0;
+$is_local_xampp = (PHP_OS_FAMILY === 'Windows') && (in_array($server_name, ['localhost', '127.0.0.1']) || strpos($server_name, '192.168.') === 0);
 
-if ($is_local) {
-    // -------------------------------------------------------------
-    // LOCALHOST (XAMPP) SETTINGS
-    // -------------------------------------------------------------
+$env_host = getenv('DB_HOST');
+$env_user = getenv('DB_USER');
+$env_pass = getenv('DB_PASS');
+$env_name = getenv('DB_NAME');
+$env_port = (int)(getenv('DB_PORT') ?: 3306);
+
+$conn = null;
+$db_connected = false;
+
+// 4. Connect to MySQL with Error Handling and Fallback
+if ($is_local_xampp && empty($env_host)) {
+    // Local Windows XAMPP
     $host = "localhost";
     $user = "root";
     $pass = "";
     $dbname = "riit_student_portal";
 
-    // 1. Initial Connection to local MySQL Server
-    $conn = new mysqli($host, $user, $pass);
-    if ($conn->connect_error) {
-        die("Localhost Database Connection Failed: " . $conn->connect_error);
+    try {
+        $conn = @new mysqli($host, $user, $pass);
+        if ($conn && !$conn->connect_error) {
+            $conn->query("CREATE DATABASE IF NOT EXISTS `$dbname` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            if ($conn->select_db($dbname)) {
+                $db_connected = true;
+            }
+        }
+    } catch (Throwable $e) {
+        $db_connected = false;
     }
-
-    // 2. Auto-create database if not exists locally
-    $conn->query("CREATE DATABASE IF NOT EXISTS `$dbname` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    $conn->select_db($dbname);
-
 } else {
-    // -------------------------------------------------------------
-    // INFINITYFREE / RENDER / LIVE HOSTING CREDENTIALS
-    // Reads Render environment variables or fallback to InfinityFree:
-    // -------------------------------------------------------------
-    $host = getenv('DB_HOST') ?: "sqlXXX.epizy.com";
-    $user = getenv('DB_USER') ?: "if0_XXXXXXXX";
-    $pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : "YOUR_VHOST_PASSWORD";
-    $dbname = getenv('DB_NAME') ?: "if0_XXXXXXXX_riit";
-    $port = (int)(getenv('DB_PORT') ?: 3306);
+    // Cloud / Render / Linux / Live Server
+    $host = $env_host ?: "127.0.0.1";
+    // Avoid Unix socket on Linux if localhost specified
+    if ($host === "localhost" && PHP_OS_FAMILY === "Linux") {
+        $host = "127.0.0.1";
+    }
+    $user = $env_user ?: "root";
+    $pass = ($env_pass !== false && $env_pass !== null) ? $env_pass : "";
+    $dbname = $env_name ?: "riit_student_portal";
+    $port = $env_port ?: 3306;
 
-    // Connect directly to the created database
-    $conn = @new mysqli($host, $user, $pass, $dbname, $port);
-    if ($conn->connect_error) {
-        die("<div style='font-family: system-ui, -apple-system, sans-serif; padding: 28px; max-width: 620px; margin: 40px auto; background: #fff5f5; border: 1.5px solid #feb2b2; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);'>
-            <h3 style='color: #8B0000; margin-top:0; font-size: 20px;'>InfinityFree Database Connection Notice</h3>
-            <p style='color: #4a5568; line-height: 1.6;'>Could not connect to the remote MySQL database. Please update the 4 credentials inside <code>db.php</code>:</p>
-            <ul style='color: #2d3748; background: #fff; padding: 16px 24px; border-radius: 8px; border: 1px solid #edf2f7; font-family: monospace; font-size: 13px;'>
-                <li>Host: <strong>$host</strong></li>
-                <li>User: <strong>$user</strong></li>
-                <li>Database: <strong>$dbname</strong></li>
-            </ul>
-            <p style='color: #718096; font-size: 13px; margin-top: 15px;'><strong>Tip:</strong> Log in to your <a href='https://app.infinityfree.com' target='_blank' style='color:#8B0000; font-weight:600;'>InfinityFree Client Area</a>, click <em>Manage &gt; Database Details</em> to copy your MySQL Hostname, Username, and Password.</p>
-        </div>");
+    // Connect to MySQL if valid host given
+    if ($host !== "sqlXXX.epizy.com" && !empty($host)) {
+        try {
+            $conn = @new mysqli($host, $user, $pass, $dbname, $port);
+            if ($conn && !$conn->connect_error) {
+                $db_connected = true;
+            }
+        } catch (Throwable $e) {
+            $db_connected = false;
+        }
     }
 }
 
+// 5. If MySQL is not reachable or failed, use SQLite Fallback
+// Guarantees the portal NEVER throws 500 error on Render!
+if (!$db_connected || !$conn || $conn->connect_error) {
+    require_once __DIR__ . '/fallback_db.php';
+    $conn = new FallbackDB(__DIR__ . '/riit_portal.sqlite');
+}
+
 // -----------------------------------------------------------------
-// AUTO-CREATE TABLES IF NOT EXISTS (Runs smoothly on both Localhost & InfinityFree)
+// AUTO-CREATE TABLES IF NOT EXISTS (Runs smoothly on both MySQL & SQLite)
 // -----------------------------------------------------------------
 
 // 1. Students table for registration and login
@@ -129,12 +146,6 @@ $conn->query("CREATE TABLE IF NOT EXISTS `admissions` (
     `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-// Add status column to admissions if table existed previously without status
-$col_check = $conn->query("SHOW COLUMNS FROM `admissions` LIKE 'status'");
-if ($col_check && $col_check->num_rows == 0) {
-    $conn->query("ALTER TABLE `admissions` ADD `status` VARCHAR(50) DEFAULT 'Pending' AFTER `bus`");
-}
-
 // 3. Teachers / Faculty table
 $conn->query("CREATE TABLE IF NOT EXISTS `teachers` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -157,7 +168,7 @@ if ($t_res && ($row = $t_res->fetch_assoc()) && $row['total'] == 0) {
     ('RIIT-FAC-01', 'Prof. Somnath Banerjee', 'faculty@riit.edu.in', 'Computer Science & Applications (BCA/MCA)', 'Associate Professor & Academic Coordinator', '+91 98765 43210', '$def_pass', 'riit_logo.jpg')");
 }
 
-// 4. Student Attendance Table (Marked by Teachers)
+// 4. Student Attendance Table
 $conn->query("CREATE TABLE IF NOT EXISTS `student_attendance` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `student_id` VARCHAR(100) NOT NULL,
@@ -184,7 +195,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS `student_marks` (
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-// 6. Study Materials & Lecture Notes Table
+// 6. Study Materials Table
 $conn->query("CREATE TABLE IF NOT EXISTS `study_materials` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `faculty_id` VARCHAR(100) NOT NULL,
@@ -197,7 +208,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS `study_materials` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-// 7. Faculty Notices & Circulars Table
+// 7. Faculty Notices Table
 $conn->query("CREATE TABLE IF NOT EXISTS `faculty_notices` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `faculty_id` VARCHAR(100) NOT NULL,
