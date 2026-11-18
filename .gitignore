@@ -7,3 +7,7 @@ $RECYCLE.BIN/
 
 # Temporary Archives (optional)
 # StudentPortal.zip
+
+# Object files
+*.o
+*.ali
