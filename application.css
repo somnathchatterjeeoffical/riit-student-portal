@@ -1,0 +1,488 @@
+/* ==========================================================================
+   RIIT Online Admission Application Portal - Enterprise Edition
+   Theme: College Dark Red (#8B0000) & Clean Institutional White/Slate
+   ========================================================================== */
+
+:root {
+    --primary-red: #8B0000;
+    --primary-red-hover: #700000;
+    --primary-red-light: #fff5f5;
+    --accent-red-border: #fecaca;
+    --accent-gold: #f59e0b;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border-color: #cbd5e1;
+    --border-light: #e2e8f0;
+    --bg-page: #f1f5f9;
+    --bg-card: #ffffff;
+    --success-green: #10b981;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+body.portal-body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Institutional Top Navbar */
+.gov-topbar {
+    background: #1e293b;
+    color: #cbd5e1;
+    font-size: 11.5px;
+    padding: 6px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.portal-header {
+    background: #ffffff;
+    border-bottom: 3px solid var(--primary-red);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 14px 40px;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+}
+
+.college-logo-img {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-red);
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.2);
+}
+
+.brand-titles h1 {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--primary-red);
+    letter-spacing: -0.3px;
+    line-height: 1.15;
+}
+
+.brand-titles p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.header-action-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.btn-header-outline {
+    border: 1.5px solid var(--primary-red);
+    color: var(--primary-red);
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-header-outline:hover {
+    background: var(--primary-red);
+    color: #ffffff;
+}
+
+/* Main Container */
+.portal-main-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 30px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+/* Stepper Progress Bar (Enterprise Stepper) */
+.stepper-nav {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    padding: 18px 24px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    overflow-x: auto;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border-light);
+    transition: all 0.25s;
+}
+
+.step-desc {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-desc .step-tag {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.step-desc .step-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.step-indicator.active .step-circle {
+    background-color: var(--primary-red);
+    color: #ffffff;
+    border-color: var(--primary-red);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.35);
+}
+
+.step-indicator.active .step-desc .step-name {
+    color: var(--primary-red);
+}
+
+.step-indicator.completed .step-circle {
+    background-color: var(--success-green);
+    color: #ffffff;
+    border-color: var(--success-green);
+}
+
+/* Application Form Card */
+.form-master-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.card-stage-header {
+    background: linear-gradient(135deg, #8B0000, #991b1b);
+    color: #ffffff;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-stage-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-stage-header span {
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 11.5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.form-body-padding {
+    padding: 32px;
+}
+
+/* Sub-section divider */
+.sub-section-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--primary-red);
+    border-bottom: 2px solid var(--accent-red-border);
+    padding-bottom: 8px;
+    margin: 24px 0 18px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sub-section-title:first-child {
+    margin-top: 0;
+}
+
+/* Form Layout Grids */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.form-row-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.form-field label .req {
+    color: #ef4444;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    padding: 10px 13px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--text-primary);
+    background-color: #ffffff;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.12);
+}
+
+/* Table Style for Academic Marks */
+.marks-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 22px;
+}
+
+.marks-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.marks-table th {
+    background-color: #f8fafc;
+    color: var(--text-primary);
+    padding: 10px 12px;
+    border: 1px solid var(--border-light);
+    font-weight: 700;
+    text-align: left;
+}
+
+.marks-table td {
+    padding: 8px 10px;
+    border: 1px solid var(--border-light);
+}
+
+.marks-table td input {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+/* Upload Dual Cards (Photo & Signature) */
+.upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.upload-box {
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    background-color: #f8fafc;
+    transition: all 0.25s ease;
+}
+
+.upload-box:hover {
+    border-color: var(--primary-red);
+    background-color: var(--primary-red-light);
+}
+
+.preview-slot {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    margin: 0 auto 12px auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-upload-file {
+    display: inline-block;
+    padding: 7px 16px;
+    background-color: var(--primary-red);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+/* Bottom Controls */
+.form-footer-bar {
+    background-color: #f8fafc;
+    border-top: 1px solid var(--border-light);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-nav-back {
+    padding: 10px 22px;
+    background-color: #ffffff;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-nav-back:hover {
+    background-color: #f1f5f9;
+}
+
+.btn-nav-back:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-nav-forward {
+    padding: 10px 28px;
+    background-color: var(--primary-red);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(139, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-nav-forward:hover {
+    background-color: var(--primary-red-hover);
+    transform: translateY(-1px);
+}
+
+/* Acknowledgement / Printable Slip */
+.receipt-card {
+    background: #ffffff;
+    border: 2px solid var(--primary-red);
+    border-radius: 14px;
+    padding: 32px;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.receipt-header {
+    text-align: center;
+    border-bottom: 2px dashed #cbd5e1;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.receipt-stamp {
+    display: inline-block;
+    padding: 6px 18px;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1.5px solid #86efac;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.receipt-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    font-size: 13.5px;
+    line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+    .form-row, .form-row-2, .form-row-4, .upload-grid {
+        grid-template-columns: 1fr;
+    }
+    .gov-topbar, .portal-header {
+        padding: 12px 20px;
+    }
+}

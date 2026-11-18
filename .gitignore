@@ -1,0 +1,9 @@
+# Windows / OS thumbnails
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Temporary Archives (optional)
+# StudentPortal.zip

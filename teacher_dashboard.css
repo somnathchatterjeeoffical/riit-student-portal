@@ -1,0 +1,780 @@
+/* ========================================================
+   RIIT FACULTY & TEACHER DASHBOARD STYLES
+   College Theme: Dark Red (#8B0000), Slate Dark (#1e293b), Clean White (#ffffff)
+   ======================================================== */
+
+:root {
+    --primary: #8B0000;
+    --primary-hover: #700000;
+    --primary-light: #fff5f5;
+    --primary-rgb: 139, 0, 0;
+
+    --faculty-dark: #1e293b;
+    --faculty-navy: #0f172a;
+    --faculty-accent: #2563eb;
+
+    --bg-body: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-subtle: #f1f5f9;
+
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+
+    --border-color: #e2e8f0;
+    --border-light: #edf2f7;
+
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #0284c7;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+}
+
+[data-theme="navy"] {
+    --primary: #1e3a8a;
+    --primary-hover: #172554;
+    --primary-light: #eff6ff;
+    --primary-rgb: 30, 58, 138;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body.teacher-dashboard-body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --------------------------------------------------------
+   SIDEBAR STYLING
+   -------------------------------------------------------- */
+.teacher-sidebar {
+    width: 260px;
+    background: #ffffff;
+    border-right: 1px solid var(--border-color);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.teacher-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+}
+
+.teacher-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+    box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.2);
+}
+
+.brand-info h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+}
+
+.brand-info span {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.nav-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-light);
+    letter-spacing: 0.8px;
+    margin: 16px 0 8px 12px;
+}
+
+.teacher-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.teacher-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.teacher-nav-link svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.teacher-nav-link:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.teacher-nav-link.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.25);
+}
+
+.nav-badge-pill {
+    margin-left: auto;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 12px;
+}
+
+/* Teacher Sidebar Profile Box */
+.faculty-profile-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.faculty-avatar-wrap {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 10px;
+}
+
+.faculty-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.faculty-status-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+}
+
+.faculty-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 2px;
+}
+
+.faculty-role {
+    font-size: 11px;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.btn-faculty-exit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 7px 12px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--danger);
+    font-size: 11.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-faculty-exit:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+}
+
+/* --------------------------------------------------------
+   MAIN CONTENT AREA
+   -------------------------------------------------------- */
+.teacher-main {
+    margin-left: 260px;
+    flex: 1;
+    padding: 24px 32px;
+    max-width: calc(100% - 260px);
+}
+
+/* Top Navigation Bar */
+.teacher-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 20px;
+}
+
+.topbar-welcome h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.3px;
+}
+
+.topbar-welcome p {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.date-pill {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 7px 14px;
+    border-radius: 30px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-action-primary {
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.2);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-action-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+/* Banner Alert */
+.alert-banner {
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease;
+}
+
+.alert-banner.success {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+}
+
+.alert-banner.info {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+}
+
+/* --------------------------------------------------------
+   STAT CARDS (KPI METRICS)
+   -------------------------------------------------------- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-icon-box.red { background: #fee2e2; color: var(--primary); }
+.stat-icon-box.blue { background: #dbeafe; color: #2563eb; }
+.stat-icon-box.green { background: #d1fae5; color: #059669; }
+.stat-icon-box.amber { background: #fef3c7; color: #d97706; }
+
+.stat-icon-box svg {
+    width: 24px;
+    height: 24px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* --------------------------------------------------------
+   PANEL VIEWS / SECTIONS
+   -------------------------------------------------------- */
+.teacher-view-section {
+    display: none;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+.teacher-view-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card Containers */
+.dashboard-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.card-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.card-header-flex h3 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* --------------------------------------------------------
+   ATTENDANCE & MARKS TABLES
+   -------------------------------------------------------- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: #f8fafc;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.filter-select, .filter-input {
+    padding: 7px 12px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    background: #ffffff;
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filter-select:focus, .filter-input:focus {
+    border-color: var(--primary);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th {
+    background: #f8fafc;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+.data-table tr:hover {
+    background: #fdf2f2;
+}
+
+.student-row-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.table-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border-color);
+}
+
+.student-meta strong {
+    font-size: 13.5px;
+    color: var(--text-main);
+    display: block;
+}
+
+.student-meta span {
+    font-size: 11.5px;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Radio attendance pills */
+.attendance-radio-group {
+    display: flex;
+    gap: 8px;
+}
+
+.radio-pill-label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border-color);
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.radio-pill-label input[type="radio"] {
+    display: none;
+}
+
+.radio-pill-label.present:has(input:checked) {
+    background: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+}
+
+.radio-pill-label.absent:has(input:checked) {
+    background: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+.radio-pill-label.late:has(input:checked) {
+    background: #f59e0b;
+    color: #ffffff;
+    border-color: #f59e0b;
+}
+
+/* Badges */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+.badge-status.approved { background: #d1fae5; color: #065f46; }
+.badge-status.pending { background: #fef3c7; color: #92400e; }
+.badge-status.rejected { background: #fee2e2; color: #991b1b; }
+
+/* Buttons */
+.btn-sm-action {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-sm-action.approve {
+    background: #10b981;
+    color: #ffffff;
+}
+.btn-sm-action.approve:hover { background: #059669; }
+
+.btn-sm-action.reject {
+    background: #ef4444;
+    color: #ffffff;
+}
+.btn-sm-action.reject:hover { background: #dc2626; }
+
+.btn-sm-action.view {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid var(--border-color);
+}
+.btn-sm-action.view:hover { background: #e2e8f0; }
+
+/* Notice Card */
+.notice-item {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: box-shadow 0.2s;
+}
+
+.notice-item:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.notice-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.notice-header-row h4 {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.notice-date {
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+.notice-item p {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+/* Routine Grid */
+.routine-grid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.routine-grid th {
+    background: #f8fafc;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.routine-grid td {
+    padding: 12px;
+    font-size: 12.5px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.routine-cell-class {
+    background: var(--primary-light);
+    border-radius: 6px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--primary);
+    text-align: left;
+}
+
+.routine-cell-class strong {
+    font-size: 12.5px;
+    color: var(--primary);
+    display: block;
+}
+
+.routine-cell-class span {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Forms */
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group-field label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.form-group-field input, .form-group-field select, .form-group-field textarea {
+    padding: 9px 13px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group-field input:focus, .form-group-field select:focus, .form-group-field textarea:focus {
+    border-color: var(--primary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .teacher-sidebar {
+        width: 72px;
+        padding: 16px 8px;
+    }
+    .brand-info, .teacher-nav-link span, .nav-title, .faculty-name, .faculty-role, .btn-faculty-exit span {
+        display: none;
+    }
+    .teacher-main {
+        margin-left: 72px;
+        max-width: calc(100% - 72px);
+        padding: 16px;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
