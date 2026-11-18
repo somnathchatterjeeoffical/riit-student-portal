@@ -1,8 +1,28 @@
 <?php
 // =========================================================================
 // RIIT STUDENT & FACULTY PORTAL - DATABASE CONFIGURATION
-// Auto-detects Localhost (XAMPP) vs Live Hosting (InfinityFree / cPanel)
+// Auto-detects Localhost (XAMPP) vs Live Hosting (Render / InfinityFree)
 // =========================================================================
+
+// 1. Auto-load .env file if present
+$env_file = __DIR__ . '/.env';
+if (file_exists($env_file)) {
+    $env_lines = file($env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($env_lines as $env_line) {
+        $env_line = trim($env_line);
+        if ($env_line === '' || strpos($env_line, '#') === 0) continue;
+        if (strpos($env_line, '=') !== false) {
+            list($e_key, $e_val) = explode('=', $env_line, 2);
+            $e_key = trim($e_key);
+            $e_val = trim($e_val, " \t\n\r\0\x0B\"'");
+            if (getenv($e_key) === false) {
+                putenv("$e_key=$e_val");
+                $_ENV[$e_key] = $e_val;
+                $_SERVER[$e_key] = $e_val;
+            }
+        }
+    }
+}
 
 // Check whether running on Localhost or Live Production Server
 $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
